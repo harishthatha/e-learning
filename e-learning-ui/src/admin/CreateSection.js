@@ -108,7 +108,7 @@ const CreateSection = () => {
           onClose={() => setOpenMessage(false)}
         />
       )}
-      <Header as="h4">{course?.title}</Header>
+      <Header as="h2">{course?.title}</Header>
       <Grid columns={2} centered>
         <Grid.Row centered>
           <Grid.Column width={5}>

@@ -29,10 +29,13 @@ const InstructorCourseList = () => {
       <Grid.Row>
         <Grid.Column width={16}>
           {error && <Message color="red">{error}</Message>}
-          <Header as="h3">Your Sections</Header>
+          <Header as="h1">Your Sections</Header>
           <Card.Group>
             {sections.map((section) => (
-              <Card key={section.sectionId}>
+              <Card
+                key={section.sectionId}
+                style={{ borderRadius: 12, backgroundColor: "" }}
+              >
                 <Card.Content>
                   <Card.Header>{section.course.title}</Card.Header>
                   <Card.Meta>{section.course.courseCode}</Card.Meta>
@@ -51,9 +54,19 @@ const InstructorCourseList = () => {
                     <strong>Credit Hours:</strong> {section.course.creditHours}
                   </Card.Description>
                 </Card.Content>
-                <Card.Content extra>
+                <Card.Content
+                  extra
+                  style={{ borderRadius: 12, backgroundColor: "#db2828" }}
+                >
                   <Link to={`/instructor/courses/${section.sectionId}?tab=0`}>
-                    <Button color="blue" fluid>
+                    <Button
+                      style={{
+                        borderRadius: 12,
+                        backgroundColor: "#db2828",
+                        color: "white",
+                      }}
+                      fluid
+                    >
                       Go to Course details
                     </Button>
                   </Link>

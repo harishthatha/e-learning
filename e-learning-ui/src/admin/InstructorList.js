@@ -34,6 +34,7 @@ const InstructorList = () => {
 
   const handleRemoveInstructor = async (instructorId) => {
     try {
+      await api.delete(`/instructors/${instructorId}`);
       fetchData();
       setSnackbar({
         message: "Instructor removed successfully",
@@ -70,7 +71,7 @@ const InstructorList = () => {
         />
       )}
 
-      <Table celled selectable>
+      <Table selectable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Instructor ID</Table.HeaderCell>
@@ -83,7 +84,7 @@ const InstructorList = () => {
         <Table.Body>
           {instructors.map((instructor) => (
             <Table.Row key={instructor.instructorId}>
-              <Table.Cell>{instructor.instructorIdNumber}</Table.Cell>
+              <Table.Cell>{instructor.instructorId}</Table.Cell>
               <Table.Cell>
                 {instructor.firstName} {instructor.lastName}
               </Table.Cell>

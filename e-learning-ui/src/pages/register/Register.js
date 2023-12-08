@@ -5,6 +5,7 @@ import {
   Dropdown,
   Form,
   Grid,
+  Header,
   Message,
 } from "semantic-ui-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -93,7 +94,7 @@ const Register = () => {
 
   return (
     <div>
-      <Grid textAlign="center" verticalAlign="middle" style={{ marginTop: 20 }}>
+      <Grid textAlign="center" verticalAlign="middle" style={{ marginTop: 40 }}>
         <Grid.Column style={{ maxWidth: 450 }}>
           {openMessage && (
             <CustomMessage
@@ -103,6 +104,7 @@ const Register = () => {
               marginBottom={12}
             />
           )}
+          <Header as={"h1"}>Student Sign up</Header>
           <Form
             error={message !== ""}
             onSubmit={(e) => {

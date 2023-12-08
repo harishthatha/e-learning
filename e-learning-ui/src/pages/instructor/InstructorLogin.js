@@ -134,6 +134,10 @@ const InstructorLogin = () => {
             Login as <b>Admin?</b>{" "}
             <RouterLink to="/admin/login">Click here</RouterLink>
           </Container>
+          <Container style={{ marginBottom: 8 }}>
+            Sign up as <b>Instructor ?</b>{" "}
+            <RouterLink to="/instructor/register">Click here</RouterLink>
+          </Container>
         </Message>
       </Grid.Column>
     </Grid>

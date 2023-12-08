@@ -180,6 +180,7 @@ public class StudentServiceImpl implements StudentService {
         if (previouslyEnrolledSections.size() > 0) {
             // Update previouslyEnrolledSections by removing student id from the list of students in these sections
             previouslyEnrolledSections.forEach(sectionEntity -> {
+                sectionEntity.setAvailableSeats(sectionEntity.getAvailableSeats() + 1);
                 sectionEntity.getListOfStudents().remove(studentId);
                 EnrollmentEntity enrollment = enrollmentRepository.findByStudentIdAndSectionId(studentId, sectionEntity.getSectionId());
                 if (enrollment != null) prevEnrollmentEntities.add(enrollment);
@@ -197,6 +198,8 @@ public class StudentServiceImpl implements StudentService {
 
         if (sectionsToUpdate.size() > 0) {
             sectionsToUpdate.forEach(sectionEntity -> {
+                if (sectionEntity.getAvailableSeats() == 0)
+                    throw new BaseException("Section " + sectionEntity.getSectionCode() + " is full");
                 if (sectionEntity.getListOfStudents() == null) {
                     List<String> studentIds = new ArrayList<>();
                     studentIds.add(studentId);
@@ -204,6 +207,7 @@ public class StudentServiceImpl implements StudentService {
                 } else if (!sectionEntity.getListOfStudents().contains(studentId)) {
                     sectionEntity.getListOfStudents().add(studentId);
                 }
+                sectionEntity.setAvailableSeats(sectionEntity.getAvailableSeats() - 1);
 
                 EnrollmentEntity enrollmentEntity = new EnrollmentEntity();
                 enrollmentEntity.setStudentId(studentId);

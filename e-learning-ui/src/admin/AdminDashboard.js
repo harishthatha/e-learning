@@ -4,39 +4,109 @@ import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
   return (
-    <div style={{ padding: "8px" }}>
-      <Grid container stackable columns={3}>
+    <div style={{ padding: "16px", marginTop: 20 }}>
+      <Grid container stackable columns={4}>
         <Grid.Column>
-          <Card as={Link} to="/admin/courses">
+          <Card
+            as={Link}
+            to="/admin/courses"
+            style={{
+              backgroundColor: "rgb(223, 159, 191)",
+              color: "white",
+              padding: 16,
+            }}
+          >
             <Card.Content>
-              <Card.Header>Courses</Card.Header>
+              <Card.Header
+                style={{
+                  color: "white",
+                }}
+              >
+                Courses
+              </Card.Header>
               <Card.Description>Manage Courses</Card.Description>
             </Card.Content>
-            <Button color="blue" fluid as={Link} to="/admin/courses">
-              View Courses
+            <Button
+              style={{
+                backgroundColor: "rgb(223, 159, 191)",
+                color: "white",
+                textAlign: "left",
+              }}
+              fluid
+              as={Link}
+              to="/admin/courses"
+            >
+              <b>View Courses</b>
             </Button>
           </Card>
         </Grid.Column>
 
         <Grid.Column>
-          <Card as={Link} to="/admin/students">
+          <Card
+            as={Link}
+            to="/admin/students"
+            style={{
+              backgroundColor: "rgb(255, 128, 128)",
+              color: "white",
+              padding: 16,
+            }}
+          >
             <Card.Content>
-              <Card.Header>Students</Card.Header>
+              <Card.Header
+                style={{
+                  color: "white",
+                }}
+              >
+                Students
+              </Card.Header>
               <Card.Description>Manage Students</Card.Description>
             </Card.Content>
-            <Button color="blue" fluid as={Link} to="/admin/students">
+
+            <Button
+              style={{
+                backgroundColor: "rgb(255, 128, 128)",
+                color: "white",
+                textAlign: "left",
+              }}
+              fluid
+              as={Link}
+              to="/admin/students"
+            >
               View Students
             </Button>
           </Card>
         </Grid.Column>
 
         <Grid.Column>
-          <Card as={Link} to="/admin/instructors">
+          <Card
+            as={Link}
+            to="/admin/instructors"
+            style={{
+              backgroundColor: "rgb(0, 179, 179)",
+              color: "white",
+              padding: 16,
+            }}
+          >
             <Card.Content>
-              <Card.Header>Instructors</Card.Header>
+              <Card.Header
+                style={{
+                  color: "white",
+                }}
+              >
+                Instructors
+              </Card.Header>
               <Card.Description>Manage Instructors</Card.Description>
             </Card.Content>
-            <Button color="blue" fluid as={Link} to="/admin/instructors">
+            <Button
+              style={{
+                backgroundColor: "rgb(0, 179, 179)",
+                color: "white",
+                textAlign: "left",
+              }}
+              fluid
+              as={Link}
+              to="/admin/instructors"
+            >
               View Instructors
             </Button>
           </Card>

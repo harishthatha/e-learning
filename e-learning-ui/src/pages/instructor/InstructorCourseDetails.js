@@ -25,42 +25,52 @@ const InstructorCourseDetails = () => {
   }, [sectionId, user]);
 
   return (
-    <Container textAlign="center">
+    <Container textAlign="center" style={{ marginTop: "20px" }}>
       {section ? (
-        <Segment style={{ width: "50%" }}>
-          <Header as="h3">{section.course.title}</Header>
-          <p>
-            <strong>Course Code:</strong> {section.course.courseCode}
-          </p>
-          <p>
-            <strong>CRN:</strong> {section.sectionCode}
-          </p>
-          <p>
-            <strong>Timings:</strong>{" "}
-            {`${section.day}, ${moment(section.startTime, "HH:mm").format(
-              "h:mm A"
-            )} - ${moment(section.endTime, "HH:mm").format("h:mm A")}`}
-          </p>
-          <p>
-            <strong>Credit Hours:</strong> {section.course.creditHours}
-          </p>
-          <p>
-            <strong>Total Seats:</strong> {section.totalSeats}
-          </p>
-          <p>
-            <strong>Available Seats:</strong> {section.availableSeats}
-          </p>
-          <Header as="h3">Actions</Header>
-          <p>
-            <Link to={`/instructor/courses/${sectionId}/assignments`}>
-              <b> Assignments</b>
-            </Link>{" "}
-            |{" "}
-            <Link to={`/instructor/courses/${sectionId}/students`}>
-              <b>Go to Students</b>
-            </Link>
-          </p>
-        </Segment>
+        <Segment.Group>
+          <Segment>
+            <Header as="h3">{section.course.title}</Header>
+            <p>
+              <strong>Course Code:</strong> {section.course.courseCode}
+            </p>
+            <p>
+              <strong>CRN:</strong> {section.sectionCode}
+            </p>
+            <p>
+              <strong>Timings:</strong>{" "}
+              {`${section.day}, ${moment(section.startTime, "HH:mm").format(
+                "h:mm A"
+              )} - ${moment(section.endTime, "HH:mm").format("h:mm A")}`}
+            </p>
+            <p>
+              <strong>Credit Hours:</strong> {section.course.creditHours}
+            </p>
+            <p>
+              <strong>Total Seats:</strong> {section.totalSeats}
+            </p>
+            <p>
+              <strong>Available Seats:</strong> {section.availableSeats}
+            </p>
+          </Segment>
+          <Segment>
+            <Header as="h3">Actions</Header>
+            <p>
+              <Link
+                style={{ marginRight: 10, fontSize: 20 }}
+                to={`/instructor/courses/${sectionId}/assignments`}
+              >
+                <b> Assignments</b>
+              </Link>{" "}
+              |{" "}
+              <Link
+                style={{ marginLeft: 10, fontSize: 20 }}
+                to={`/instructor/courses/${sectionId}/students`}
+              >
+                <b>Go to Students</b>
+              </Link>
+            </p>
+          </Segment>
+        </Segment.Group>
       ) : (
         <Container>{error || "Loading..."}</Container>
       )}

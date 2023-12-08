@@ -35,6 +35,7 @@ import GradesList from "./pages/student/GradesList";
 import InstructorStudentGradesList from "./pages/instructor/InstructorStudentGradesList";
 import AdminStudentsList from "./admin/AdminStudentsList";
 import InstructorList from "./admin/InstructorList";
+import InstructorRegister from "./pages/instructor/InstructorRegister";
 
 function App() {
   return (
@@ -241,6 +242,12 @@ function App() {
                 exact
                 path="/instructor/login"
                 element={<InstructorLogin />}
+              />
+
+              <Route
+                exact
+                path="/instructor/register"
+                element={<InstructorRegister />}
               />
 
               <Route

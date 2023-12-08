@@ -48,7 +48,7 @@ const AdminStudentsList = () => {
         />
       )}
 
-      <Table celled selectable>
+      <Table selectable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Student ID</Table.HeaderCell>

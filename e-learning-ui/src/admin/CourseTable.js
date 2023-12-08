@@ -49,6 +49,9 @@ const CourseTable = ({
                     CRN
                   </Table.HeaderCell>
                   <Table.HeaderCell style={{ position: "sticky", top: 0 }}>
+                    Available seats
+                  </Table.HeaderCell>
+                  <Table.HeaderCell style={{ position: "sticky", top: 0 }}>
                     Instructor
                   </Table.HeaderCell>
                   <Table.HeaderCell style={{ position: "sticky", top: 0 }}>
@@ -78,6 +81,7 @@ const CourseTable = ({
                       <Table.Cell>{section.course?.title}</Table.Cell>
                       <Table.Cell>{section.course?.courseCode}</Table.Cell>
                       <Table.Cell>{section.sectionCode}</Table.Cell>
+                      <Table.Cell>{section.availableSeats}</Table.Cell>
                       <Table.Cell>
                         {instructor?.firstName + " " + instructor?.lastName}
                       </Table.Cell>

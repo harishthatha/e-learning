@@ -162,7 +162,7 @@ const InstructorStudentGradesList = () => {
           textAlign: "right",
           marginTop: 0,
           padding: 16,
-          backgroundColor: "rgb(230, 247, 255)",
+          backgroundColor: "rgb(224, 235, 235)",
         }}
       >
         <Header
@@ -193,11 +193,6 @@ const InstructorStudentGradesList = () => {
                 { key: "F", value: "F", text: "F" },
               ]}
               onChange={(e, { value }) => saveFinalGrade(value)}
-              //   value={{
-              //     key: enrollment?.grade,
-              //     value: enrollment?.grade,
-              //     text: enrollment?.grade,
-              //   }}
               value={enrollment?.grade}
             />
             Total:{" "}
