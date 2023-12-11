@@ -21,6 +21,7 @@ const UpdateSection = () => {
     endTime: "",
     maxStrength: "",
     instructorId: "",
+    classroomNumber: "", // New field for classroom number
   });
 
   const [instructors, setInstructors] = useState([]);
@@ -52,6 +53,7 @@ const UpdateSection = () => {
         endTime: response.data.endTime,
         maxStrength: response.data.maxStrength,
         instructorId: response.data.instructorId,
+        classroomNumber: response.data.classroomNumber, // Set the value for classroomNumber
       });
     } catch (err) {
       setError("Error fetching section details: " + err.message);
@@ -94,6 +96,7 @@ const UpdateSection = () => {
       await api.put(`/sections/${sectionId}`, {
         ...sectionDetails,
         courseId,
+        sectionId,
         listOfDays: sectionDetails.days,
       });
 
@@ -170,6 +173,16 @@ const UpdateSection = () => {
                   value={sectionDetails.maxStrength}
                   onChange={(e) =>
                     handleInputChange("maxStrength", e.target.value)
+                  }
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Classroom Number</label>
+                <Form.Input
+                  type="text"
+                  value={sectionDetails.classroomNumber}
+                  onChange={(e) =>
+                    handleInputChange("classroomNumber", e.target.value)
                   }
                 />
               </Form.Field>

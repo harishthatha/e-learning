@@ -21,6 +21,7 @@ const CreateSection = () => {
     endTime: "",
     maxStrength: "",
     instructorId: "",
+    classroomNumber: "", // New field for classroom number
   });
 
   const [instructors, setInstructors] = useState([]);
@@ -153,6 +154,16 @@ const CreateSection = () => {
                   value={sectionDetails.maxStrength}
                   onChange={(e) =>
                     handleInputChange("maxStrength", e.target.value)
+                  }
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Classroom Number</label>
+                <Form.Input
+                  type="text"
+                  value={sectionDetails.classroomNumber}
+                  onChange={(e) =>
+                    handleInputChange("classroomNumber", e.target.value)
                   }
                 />
               </Form.Field>

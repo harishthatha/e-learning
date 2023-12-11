@@ -22,4 +22,6 @@ public class StudentEntity {
     private String program;
     private String phone;
     private String departmentId;
+    private String address;
+    private String graduationLevel;
 }

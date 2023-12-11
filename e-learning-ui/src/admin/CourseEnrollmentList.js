@@ -54,16 +54,69 @@ const CourseEnrollmentList = () => {
     fetchInstructors();
   }, []);
 
+  // const handleAddCourse = (course) => {
+  //   if (
+  //     addedCourses.length < 3 &&
+  // /     !addedCourses.find(
+  //       (addedCourse) =>
+  //         addedCourse.sectionId === course.sectionId ||
+  //         addedCourse?.course?.courseCode === course?.course?.courseCode
+  //     )
+  //   ) {
+  //     setAddedCourses([...addedCourses, course]);
+  //   }
+  // };
+
   const handleAddCourse = (course) => {
-    if (
-      addedCourses.length < 3 &&
-      !addedCourses.find(
-        (addedCourse) =>
-          addedCourse.sectionId === course.sectionId ||
-          addedCourse?.course?.courseCode === course?.course?.courseCode
-      )
-    ) {
+    // Check if the same course is already added
+    const isCourseAdded = addedCourses.some(
+      (addedCourse) =>
+        addedCourse.sectionId === course.sectionId ||
+        addedCourse?.course?.courseCode === course?.course?.courseCode
+    );
+
+    // Check if there is a course with the same day and time
+    const hasConflict = addedCourses.some((addedCourse) => {
+      return (
+        addedCourse.day === course.day &&
+        moment(course.startTime, "HH:mm").isBefore(
+          moment(addedCourse.endTime, "HH:mm")
+        ) &&
+        moment(course.endTime, "HH:mm").isAfter(
+          moment(addedCourse.startTime, "HH:mm")
+        )
+      );
+    });
+
+    if (addedCourses.length < 3 && !isCourseAdded && !hasConflict) {
       setAddedCourses([...addedCourses, course]);
+    } else {
+      // Display appropriate error message
+      if (isCourseAdded) {
+        setMessage({
+          content: "Course is already added.",
+          type: "error",
+        });
+      } else if (hasConflict) {
+        setMessage({
+          content: "There is a time conflict with the selected course.",
+          type: "error",
+        });
+      } else {
+        setMessage({
+          content: "You can add up to 3 courses.",
+          type: "error",
+        });
+      }
+
+      setOpenMessage(true);
+      setTimeout(() => {
+        setMessage({
+          content: "",
+          type: "",
+        });
+        setOpenMessage(false);
+      }, 1500);
     }
   };
 

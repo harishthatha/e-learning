@@ -14,6 +14,7 @@ import CustomMessage from "../layout/CustomMessage";
 const CreateCourse = () => {
   const [courseDetails, setCourseDetails] = useState({
     title: "",
+    courseCode: "", // New field for course code
     creditHours: "",
     description: "",
     department: [],
@@ -47,6 +48,7 @@ const CreateCourse = () => {
   const handleSubmit = async () => {
     if (
       !courseDetails.title ||
+      !courseDetails.courseCode || // New validation for course code
       !courseDetails.creditHours ||
       !courseDetails.department.length
     ) {
@@ -68,6 +70,9 @@ const CreateCourse = () => {
     } catch (err) {
       setMessage({ content: err?.response.data, type: "error" });
       setOpenMessage(true);
+      setTimeout(() => {
+        setOpenMessage(false);
+      }, 1000);
       console.error(err);
       return "fail";
     }
@@ -92,6 +97,20 @@ const CreateCourse = () => {
                   setCourseDetails({
                     ...courseDetails,
                     title: e.target.value,
+                  })
+                }
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Course Code</label>
+              <Form.Input
+                fluid
+                placeholder="Course Code"
+                value={courseDetails.courseCode}
+                onChange={(e) =>
+                  setCourseDetails({
+                    ...courseDetails,
+                    courseCode: e.target.value,
                   })
                 }
               />

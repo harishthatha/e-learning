@@ -59,17 +59,36 @@ public class CoursesServiceImpl implements CoursesService {
     @Override
     public CoursesDto addCourse(CoursesDto courseDto) {
         try {
+            String courseCode = courseDto.getCourseCode();
+
+            // Check if course code contains only numbers
+            if (courseCode.matches("\\d+")) {
+                // Course code contains only numbers, check for duplicate using numeric representation
+                CoursesEntity numericCourse = coursesRepository.findByCourseCode(Integer.parseInt(courseCode));
+                if (numericCourse != null) {
+                    throw new BaseException("Course code already exists");
+                }
+            } else {
+                // Course code contains characters or a combination of characters and numbers,
+                // check for duplicate using string representation
+                CoursesEntity existingCourse = coursesRepository.findByCourseCode(courseCode);
+                if (existingCourse != null) {
+                    throw new BaseException("Course code already exists");
+                }
+            }
+
             CoursesEntity courseByTitle = coursesRepository.findByTitle(courseDto.getTitle());
-            if (courseByTitle != null) throw new BaseException("Course already exists");
+            if (courseByTitle != null) {
+                throw new BaseException("Course already exists");
+            }
 
             CoursesEntity courseEntity = new CoursesEntity();
             courseEntity.setTitle(courseDto.getTitle());
             courseEntity.setDescription(courseDto.getDescription());
             courseEntity.setDepartments(courseDto.getDepartments());
             courseEntity.setCreditHours(courseDto.getCreditHours());
+            courseEntity.setCourseCode(courseCode);
 
-            CoursesEntity courseData = coursesRepository.findFirstByOrderByCourseCodeDesc();
-            courseEntity.setCourseCode(courseData == null ? 5200 : courseData.getCourseCode() + 1);
             CoursesEntity savedCoursesEntity = coursesRepository.save(courseEntity);
 
             return modelMapper.map(savedCoursesEntity, CoursesDto.class);
@@ -78,16 +97,36 @@ public class CoursesServiceImpl implements CoursesService {
         }
     }
 
+
     @Override
     public Optional<CoursesDto> updateCourse(String id, CoursesDto courseDto) throws CoursesNotFoundException {
         Optional<CoursesEntity> existingCoursesEntity = coursesRepository.findById(id);
         if (existingCoursesEntity.isEmpty()) throw new CoursesNotFoundException("Course not found");
+
+        String courseCode = courseDto.getCourseCode();
+
+        // Check if course code contains only numbers
+        if (courseCode.matches("\\d+")) {
+            // Course code contains only numbers, check for duplicate using numeric representation
+            CoursesEntity numericCourse = coursesRepository.findByCourseCode(Integer.parseInt(courseCode));
+            if (numericCourse != null) {
+                throw new BaseException("Course code already exists");
+            }
+        } else {
+            // Course code contains characters or a combination of characters and numbers,
+            // check for duplicate using string representation
+            CoursesEntity existingCourse = coursesRepository.findByCourseCode(courseCode);
+            if (existingCourse != null) {
+                throw new BaseException("Course code already exists");
+            }
+        }
 
         CoursesEntity updatedCoursesEntity = existingCoursesEntity.get();
         updatedCoursesEntity.setTitle(courseDto.getTitle());
         updatedCoursesEntity.setDescription(courseDto.getDescription());
         updatedCoursesEntity.setDepartments(courseDto.getDepartments());
         updatedCoursesEntity.setCreditHours(courseDto.getCreditHours());
+        updatedCoursesEntity.setCourseCode(courseDto.getCourseCode());
 
         coursesRepository.save(updatedCoursesEntity);
 

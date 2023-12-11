@@ -107,6 +107,7 @@ const AdminCourseDetails = () => {
             <Table.HeaderCell>Day</Table.HeaderCell>
             <Table.HeaderCell>Start Time</Table.HeaderCell>
             <Table.HeaderCell>End Time</Table.HeaderCell>
+            <Table.HeaderCell>Room No.</Table.HeaderCell>
             <Table.HeaderCell>Total Seats</Table.HeaderCell>
             <Table.HeaderCell>Available Seats</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
@@ -135,6 +136,7 @@ const AdminCourseDetails = () => {
                       ? moment(section.endTime, "HH:mm").format("h:mm A")
                       : "N/A"}
                   </Table.Cell>
+                  <Table.Cell>{section.classroomNumber || "N/A"}</Table.Cell>
                   <Table.Cell>{section.totalSeats || "-"}</Table.Cell>
                   <Table.Cell>{section.availableSeats || "-"}</Table.Cell>
                   <Table.Cell>

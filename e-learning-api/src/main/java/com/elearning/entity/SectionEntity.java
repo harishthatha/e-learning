@@ -23,6 +23,7 @@ public class SectionEntity {
     private List<String> listOfStudents;
     private String instructorId;
     private String crnNumber;
+    private String classroomNumber;
     private String timings;
     private String day;
     private String startTime;

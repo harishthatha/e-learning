@@ -51,6 +51,7 @@ function App() {
         <Router>
           <Layout>
             <Routes>
+              <Route exact path="/" element={<Login />} />
               <Route exact path="/student/login" element={<Login />} />
               <Route exact path="/logout" element={<Logout />} />
               <Route exact path="/student/register" element={<Register />} />

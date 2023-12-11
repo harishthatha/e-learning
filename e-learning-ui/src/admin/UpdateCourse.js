@@ -15,6 +15,7 @@ const UpdateCourse = () => {
   const { id: courseId } = useParams();
   const [courseDetails, setCourseDetails] = useState({
     title: "",
+    courseCode: "", // Added courseCode field
     creditHours: "",
     description: "",
     department: [],
@@ -38,6 +39,7 @@ const UpdateCourse = () => {
       const course = response.data;
       setCourseDetails({
         title: course.title,
+        courseCode: course.courseCode, // Set courseCode from the API response
         creditHours: course.creditHours,
         description: course.description,
         department: course.departments || [],
@@ -85,6 +87,10 @@ const UpdateCourse = () => {
     } catch (err) {
       setMessage({ content: err?.response.data, type: "error" });
       setOpenMessage(true);
+      setTimeout(() => {
+        setMessage({ content: "", type: "" });
+        setOpenMessage(false);
+      }, 1000);
       console.error(err);
       return "fail";
     }
@@ -109,6 +115,20 @@ const UpdateCourse = () => {
                   setCourseDetails({
                     ...courseDetails,
                     title: e.target.value,
+                  })
+                }
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Course Code</label>
+              <Form.Input
+                fluid
+                placeholder="Course Code"
+                value={courseDetails.courseCode}
+                onChange={(e) =>
+                  setCourseDetails({
+                    ...courseDetails,
+                    courseCode: e.target.value,
                   })
                 }
               />

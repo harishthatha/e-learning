@@ -54,6 +54,8 @@ const AdminStudentsList = () => {
             <Table.HeaderCell>Student ID</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Address</Table.HeaderCell>
+            <Table.HeaderCell>Graduation Level</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -66,6 +68,9 @@ const AdminStudentsList = () => {
                 {student.firstName} {student.lastName}
               </Table.Cell>
               <Table.Cell>{student.email}</Table.Cell>
+              <Table.Cell>{student.address || "N/A"}</Table.Cell>
+              <Table.Cell>{student.graduationLevel || "N/A"}</Table.Cell>
+
               <Table.Cell>
                 <Button
                   secondary

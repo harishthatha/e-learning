@@ -12,7 +12,7 @@ import java.util.List;
 public class CoursesDto {
     private String courseId;
     private List<String> departments;
-    private int courseCode;
+    private String courseCode;
     private String title;
     private String description;
     private int creditHours;

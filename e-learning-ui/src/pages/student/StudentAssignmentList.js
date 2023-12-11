@@ -30,6 +30,7 @@ const StudentAssignmentList = () => {
   const [openUploadModal, setOpenUploadModal] = useState(false);
   const [openViewFileModal, setOpenViewFileModal] = useState(false); // New state for the View File modal
   const { user } = useAuth();
+  const [isAttachment, setIsAttachment] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -124,6 +125,8 @@ const StudentAssignmentList = () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Assignment</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+            <Table.HeaderCell>Attachments</Table.HeaderCell>
             <Table.HeaderCell>Due date</Table.HeaderCell>
             <Table.HeaderCell>Due time</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
@@ -135,6 +138,22 @@ const StudentAssignmentList = () => {
           {assignments.map((assignment) => (
             <Table.Row key={assignment.assignmentId}>
               <Table.Cell>{assignment.title}</Table.Cell>
+              <Table.Cell>{assignment.description}</Table.Cell>
+              <Table.Cell>
+                {assignment?.attachmentUrl && (
+                  <Button
+                    color="teal"
+                    onClick={() => {
+                      setSelectedAssignmentData(assignment);
+                      setSelectedAssignment(assignment.assignmentId);
+                      handleViewFile();
+                      setIsAttachment(true);
+                    }}
+                  >
+                    Show
+                  </Button>
+                )}
+              </Table.Cell>
               <Table.Cell>{assignment.dueDate}</Table.Cell>
               <Table.Cell>
                 {convertTo12HourFormat(assignment.dueTime)}
@@ -207,15 +226,32 @@ const StudentAssignmentList = () => {
       {/* View File Modal */}
       <Modal
         open={openViewFileModal}
-        onClose={() => setOpenViewFileModal(false)}
+        onClose={() => {
+          setOpenViewFileModal(false);
+          setIsAttachment(false);
+        }}
         size="large"
       >
-        <Modal.Header>{"File Viewer"}</Modal.Header>
+        <Modal.Header>
+          {isAttachment ? "Attachment Viewer" : "File Viewer"}
+        </Modal.Header>
         <Modal.Content>
-          <FileViewer file={selectedAssignmentData?.submission?.fileUrl} />
+          <FileViewer
+            file={
+              isAttachment
+                ? selectedAssignmentData?.attachmentUrl
+                : selectedAssignmentData?.submission?.fileUrl
+            }
+          />
         </Modal.Content>
         <Modal.Actions>
-          <Button color="black" onClick={() => setOpenViewFileModal(false)}>
+          <Button
+            color="black"
+            onClick={() => {
+              setOpenViewFileModal(false);
+              setIsAttachment(false);
+            }}
+          >
             Close
           </Button>
         </Modal.Actions>

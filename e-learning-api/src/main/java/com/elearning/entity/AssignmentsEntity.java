@@ -17,6 +17,7 @@ public class AssignmentsEntity {
     private String sectionId;
     private String title;
     private String description;
+    private String attachmentUrl;
     private String dueDate;
     private String dueTime;
     private int points;

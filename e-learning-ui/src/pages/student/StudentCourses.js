@@ -58,6 +58,9 @@ const StudentCourses = () => {
                 <Card.Content>
                   <Card.Header>{course.course.title}</Card.Header>
                   <Card.Meta>CRN: {course.sectionCode}</Card.Meta>
+                  <Card.Meta>
+                    Room No. {course.classroomNumber || "N/A"}
+                  </Card.Meta>
                   <Card.Description>
                     <strong>Instructor:</strong>{" "}
                     {instructor?.firstName + " " + instructor?.lastName}

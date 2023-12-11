@@ -6,7 +6,6 @@ import {
   Form,
   Grid,
   Header,
-  Message,
 } from "semantic-ui-react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/api";
@@ -20,11 +19,10 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [graduationLevel, setGraduationLevel] = useState("");
   const [showValidations, setShowValidations] = useState(false);
-  const [message, setMessage] = useState({
-    content: "",
-    type: "",
-  });
+  const [message, setMessage] = useState("");
   const [departmentsList, setDepartmentsList] = useState([]);
   const [openMessage, setOpenMessage] = useState(false);
   const [department, setDepartment] = useState("");
@@ -44,6 +42,7 @@ const Register = () => {
 
   const handleRegister = async () => {
     setShowValidations(true);
+
     // Check if all required fields are filled
     if (
       firstName === "" ||
@@ -52,7 +51,9 @@ const Register = () => {
       phone === "" ||
       password === "" ||
       confirmPassword === "" ||
-      department === ""
+      department === "" ||
+      address === "" ||
+      graduationLevel === ""
     ) {
       setMessage("All fields are required.");
       return;
@@ -73,6 +74,8 @@ const Register = () => {
         phone,
         password,
         departmentId: department,
+        address,
+        graduationLevel,
       });
 
       setMessage({
@@ -208,6 +211,30 @@ const Register = () => {
               (confirmPassword === "" || password !== confirmPassword) && (
                 <p style={{ color: "red" }}>Passwords do not match</p>
               )}
+            <Form.Field>
+              <Form.Input
+                fluid
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                error={showValidations && address === ""}
+              />
+            </Form.Field>
+            {showValidations && address === "" && (
+              <p style={{ color: "red" }}>Address is required</p>
+            )}
+            <Form.Field>
+              <Form.Input
+                fluid
+                placeholder="Graduation Level"
+                value={graduationLevel}
+                onChange={(e) => setGraduationLevel(e.target.value)}
+                error={showValidations && graduationLevel === ""}
+              />
+            </Form.Field>
+            {showValidations && graduationLevel === "" && (
+              <p style={{ color: "red" }}>Graduation Level is required</p>
+            )}
             <Button
               fluid
               type="submit"

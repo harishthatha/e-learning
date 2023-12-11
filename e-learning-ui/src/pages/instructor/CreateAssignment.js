@@ -18,6 +18,7 @@ const CreateAssignment = () => {
     dueDate: "",
     dueTime: "",
     points: "",
+    attachment: null, // New property for attachment file
   });
 
   const { sectionId } = useParams();
@@ -29,8 +30,13 @@ const CreateAssignment = () => {
   const [openMessage, setOpenMessage] = useState(false);
   const navigate = useNavigate();
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setAssignmentDetails({ ...assignmentDetails, attachment: file });
+  };
+
   const handleSubmit = async () => {
-    const { title, dueDate, dueTime, points } = assignmentDetails;
+    const { title, dueDate, dueTime, points, attachment } = assignmentDetails;
 
     // Check if points is not a valid integer
     if (!title || !dueDate || !dueTime || !Number.isInteger(Number(points))) {
@@ -46,7 +52,22 @@ const CreateAssignment = () => {
     }
 
     try {
-      await api.post(`/assignments`, { ...assignmentDetails, sectionId });
+      const formData = new FormData();
+      formData.append(
+        "assignmentJson",
+        JSON.stringify({
+          sectionId,
+          title,
+          dueDate,
+          dueTime,
+          points,
+          description: assignmentDetails.description || "",
+        })
+      );
+      formData.append("attachment", attachment);
+
+      await api.post(`/assignments`, formData, { params: { sectionId } });
+
       setMessage({
         content: "Assignment created successfully",
         type: "success",
@@ -57,7 +78,7 @@ const CreateAssignment = () => {
       }, 1000);
     } catch (err) {
       setMessage({
-        content: "All fields are required",
+        content: "Error creating assignment",
         type: "error",
       });
       setOpenMessage(true);
@@ -155,6 +176,17 @@ const CreateAssignment = () => {
                     }
                   />
                 </Form.Field>
+
+                <Form.Field>
+                  <label>Attachment</label>
+                  <Input
+                    fluid
+                    type="file"
+                    size="small"
+                    onChange={handleFileChange}
+                  />
+                </Form.Field>
+
                 <Button
                   fluid
                   color="blue"

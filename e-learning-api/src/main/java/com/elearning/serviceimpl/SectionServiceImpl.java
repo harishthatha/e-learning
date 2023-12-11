@@ -28,7 +28,6 @@ public class SectionServiceImpl implements SectionService {
     @Autowired
     private CoursesRepository courseRepository;
 
-
     @Autowired
     private StudentRepository studentRepository;
 
@@ -98,20 +97,21 @@ public class SectionServiceImpl implements SectionService {
                 sectionDto.setDay(day);
 
                 if (isDayTimeConflict(sectionDto)) {
-                    throw new BaseException("Oops! It seems there's a scheduling conflict for the section \"" + sectionDto.getName() +
-                            "\" with the instructor on " + day + ". Please choose a different day and time.");
+                    throw new BaseException(
+                            "Oops! It seems there's a scheduling conflict for the section \"" + sectionDto.getDay() +
+                                    "\" with the instructor on " + day + ". Please choose a different day and time.");
                 }
 
                 SectionEntity sectionEntity = modelMapper.map(sectionDto, SectionEntity.class);
 
                 Optional<CoursesEntity> courseEntity = courseRepository.findById(sectionDto.getCourseId());
-                if (courseEntity.isEmpty()) throw new BaseException("Course not found");
+                if (courseEntity.isEmpty())
+                    throw new BaseException("Course not found.");
 
                 SectionEntity sectionData = sectionRepository.findFirstByOrderBySectionCodeDesc();
                 int crn = sectionData == null ? 50000 : sectionData.getSectionCode() + 1;
                 sectionEntity.setSectionCode(crn);
                 sectionEntity.setListOfStudents(new ArrayList<>());
-
 
                 sectionEntity.setDay(sectionDto.getDay());
                 sectionEntity.setStartTime(sectionDto.getStartTime());
@@ -137,6 +137,11 @@ public class SectionServiceImpl implements SectionService {
 
         // Check for conflicts
         for (SectionEntity instructorSection : instructorSections) {
+            if (instructorSection != null && instructorSection.getSectionId() != null
+                    && instructorSection.getSectionId().equals(sectionDto.getSectionId())) {
+                continue;
+            }
+
             if (instructorSection != null && instructorSection.getDay().equals(sectionDto.getDay()) &&
                     doTimeRangesOverlap(instructorSection.getStartTime(), instructorSection.getEndTime(),
                             sectionDto.getStartTime(), sectionDto.getEndTime())) {
@@ -163,24 +168,28 @@ public class SectionServiceImpl implements SectionService {
         List<SectionDto> updatedSections = new ArrayList<>();
 
         Optional<CoursesEntity> courseEntity = courseRepository.findById(sectionDto.getCourseId());
-        if (courseEntity.isEmpty()) throw new BaseException("Course not found");
+        if (courseEntity.isEmpty())
+            throw new BaseException("Course not found");
 
         if (sectionDto.getListOfDays().size() > 0) {
             for (String day : sectionDto.getListOfDays()) {
                 sectionDto.setDay(day);
 
                 if (isDayTimeConflict(sectionDto)) {
-                    throw new BaseException("Oops! It seems there's a scheduling conflict for the section \"" + sectionDto.getName() +
-                            "\" with the instructor on " + day + ". Please choose a different day and time.");
+                    throw new BaseException(
+                            "Oops! It seems there's a scheduling conflict for the section \"" + sectionDto.getName() +
+                                    "\" with the instructor on " + day + ". Please choose a different day and time.");
                 }
 
                 Optional<SectionEntity> existingSectionEntity = sectionRepository.findById(id);
-                if (existingSectionEntity.isEmpty()) throw new SectionNotFoundException("Section not found");
+                if (existingSectionEntity.isEmpty())
+                    throw new SectionNotFoundException("Section not found");
 
                 SectionEntity updatedSectionEntity = existingSectionEntity.get();
                 updatedSectionEntity.setMaxStrength(sectionDto.getMaxStrength());
                 updatedSectionEntity.setInstructorId(sectionDto.getInstructorId());
                 updatedSectionEntity.setName(sectionDto.getName());
+                updatedSectionEntity.setClassroomNumber(sectionDto.getClassroomNumber());
 
                 updatedSectionEntity.setDay(sectionDto.getDay());
                 updatedSectionEntity.setStartTime(sectionDto.getStartTime());
@@ -205,7 +214,8 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public void deleteSection(String id) throws SectionNotFoundException {
         Optional<SectionEntity> existingSectionEntity = sectionRepository.findById(id);
-        if (existingSectionEntity.isEmpty()) throw new SectionNotFoundException("Section not found");
+        if (existingSectionEntity.isEmpty())
+            throw new SectionNotFoundException("Section not found");
 
         sectionRepository.deleteById(id);
     }
@@ -213,7 +223,8 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public List<StudentDto> getSectionStudents(String id) {
         Optional<SectionEntity> section = sectionRepository.findById(id);
-        if (section.isEmpty()) throw new SectionNotFoundException("Section not found");
+        if (section.isEmpty())
+            throw new SectionNotFoundException("Section not found");
 
         List<AssignmentsEntity> assignments = assignmentRepository.findAllBySectionId(id);
         List<AssignmentsDto> assignmentDtos = assignments.stream()
@@ -229,26 +240,27 @@ public class SectionServiceImpl implements SectionService {
                     StudentDto studentDto = modelMapper.map(studentEntity, StudentDto.class);
 
                     // Create a new list for each student to avoid sharing
-//                    List<AssignmentsDto> updatedAssignmentsDtos = assignmentDtos.stream()
-//                            .map(assignmentDto -> {
-//                                // Check if the student has submitted for this assignment
-//                                boolean submitted = assignmentDto.getSubmittedStudents() != null &&
-//                                        assignmentDto.getSubmittedStudents().contains(studentDto.getStudentId());
-//                                AssignmentsDto updatedAssignmentsDto = new AssignmentsDto();
-//                                updatedAssignmentsDto.setAssignmentId(assignmentDto.getAssignmentId());
-//                                updatedAssignmentsDto.setSectionId(assignmentDto.getSectionId());
-//                                updatedAssignmentsDto.setTitle(assignmentDto.getTitle());
-//                                updatedAssignmentsDto.setDescription(assignmentDto.getDescription());
-//                                updatedAssignmentsDto.setSubmittedStudents(assignmentDto.getSubmittedStudents());
-//                                updatedAssignmentsDto.setDueDate(assignmentDto.getDueDate());
-//                                updatedAssignmentsDto.setAssignmentMarks(assignmentDto.getAssignmentMarks());
-//                                updatedAssignmentsDto.setAssignmentDetails(assignmentDto.getAssignmentDetails());
-//                                updatedAssignmentsDto.setSubmissionStatus(submitted ? "Submitted" : "Not Submitted");
-//                                return updatedAssignmentsDto;
-//                            })
-//                            .toList();
-//
-//                    studentDto.setAssignmentsDtos(updatedAssignmentsDtos);
+                    // List<AssignmentsDto> updatedAssignmentsDtos = assignmentDtos.stream()
+                    // .map(assignmentDto -> {
+                    // // Check if the student has submitted for this assignment
+                    // boolean submitted = assignmentDto.getSubmittedStudents() != null &&
+                    // assignmentDto.getSubmittedStudents().contains(studentDto.getStudentId());
+                    // AssignmentsDto updatedAssignmentsDto = new AssignmentsDto();
+                    // updatedAssignmentsDto.setAssignmentId(assignmentDto.getAssignmentId());
+                    // updatedAssignmentsDto.setSectionId(assignmentDto.getSectionId());
+                    // updatedAssignmentsDto.setTitle(assignmentDto.getTitle());
+                    // updatedAssignmentsDto.setDescription(assignmentDto.getDescription());
+                    // updatedAssignmentsDto.setSubmittedStudents(assignmentDto.getSubmittedStudents());
+                    // updatedAssignmentsDto.setDueDate(assignmentDto.getDueDate());
+                    // updatedAssignmentsDto.setAssignmentMarks(assignmentDto.getAssignmentMarks());
+                    // updatedAssignmentsDto.setAssignmentDetails(assignmentDto.getAssignmentDetails());
+                    // updatedAssignmentsDto.setSubmissionStatus(submitted ? "Submitted" : "Not
+                    // Submitted");
+                    // return updatedAssignmentsDto;
+                    // })
+                    // .toList();
+                    //
+                    // studentDto.setAssignmentsDtos(updatedAssignmentsDtos);
                     if (enrollment != null)
                         studentDto.setEnrollmentDto(modelMapper.map(enrollment, EnrollmentDto.class));
                     return studentDto;
@@ -256,11 +268,10 @@ public class SectionServiceImpl implements SectionService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public List<AssignmentsDto> getSectionAssignments(String id) {
         List<AssignmentsEntity> assignments = assignmentRepository.findAllBySectionId(id);
-        return assignments.stream().map(assignmentEntity ->
-                modelMapper.map(assignmentEntity, AssignmentsDto.class)).collect(Collectors.toList());
+        return assignments.stream().map(assignmentEntity -> modelMapper.map(assignmentEntity, AssignmentsDto.class))
+                .collect(Collectors.toList());
     }
 }

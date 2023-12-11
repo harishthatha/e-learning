@@ -18,11 +18,12 @@ public class InstructorDto {
     private String email;
     private String password;
     private String token;
+    private String address;
+    private String education;
     private String role;
     private String phone;
     private String experience;
     private String departmentId;
-    private String education;
     private List<GrantedAuthority> authorities;
 }
 

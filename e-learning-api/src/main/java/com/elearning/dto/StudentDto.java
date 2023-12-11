@@ -14,13 +14,13 @@ public class StudentDto {
     private String studentId;
     private String studentIdNumber;
     private String username; // Add this field
-
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String program;
-
+    private String address;
+    private String graduationLevel;
     private String phone;
     private String token;
     private String role;

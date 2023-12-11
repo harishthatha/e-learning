@@ -21,6 +21,8 @@ public class InstructorEntity {
     private String password;
     private String phone;
     private String experience;
+
+    private String address;
     private String departmentId;
     private String education;
 }

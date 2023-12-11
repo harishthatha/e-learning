@@ -77,6 +77,9 @@ const InstructorList = () => {
             <Table.HeaderCell>Instructor ID</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Address</Table.HeaderCell>
+            <Table.HeaderCell>Education</Table.HeaderCell>
+            <Table.HeaderCell>Experience</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -89,6 +92,9 @@ const InstructorList = () => {
                 {instructor.firstName} {instructor.lastName}
               </Table.Cell>
               <Table.Cell>{instructor.email}</Table.Cell>
+              <Table.Cell>{instructor.address || "N/A"}</Table.Cell>
+              <Table.Cell>{instructor.education || "N/A"}</Table.Cell>
+              <Table.Cell>{instructor.experience || "N/A"}</Table.Cell>
               <Table.Cell>
                 <Button
                   color="red"

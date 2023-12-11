@@ -20,6 +20,9 @@ const InstructorRegister = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [education, setEducation] = useState("");
+  const [experience, setExperience] = useState("");
   const [showValidations, setShowValidations] = useState(false);
   const [message, setMessage] = useState({
     content: "",
@@ -53,7 +56,10 @@ const InstructorRegister = () => {
       phone === "" ||
       password === "" ||
       confirmPassword === "" ||
-      department === ""
+      department === "" ||
+      address === "" ||
+      education === "" ||
+      experience === ""
     ) {
       setMessage({
         content: "All fields are required.",
@@ -80,6 +86,9 @@ const InstructorRegister = () => {
         phone,
         password,
         departmentId: department,
+        address,
+        education,
+        experience,
       });
 
       setMessage({
@@ -215,6 +224,45 @@ const InstructorRegister = () => {
               (confirmPassword === "" || password !== confirmPassword) && (
                 <p style={{ color: "red" }}>Passwords do not match</p>
               )}
+
+            {/* New fields */}
+            <Form.Field>
+              <Form.Input
+                fluid
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                error={showValidations && address === ""}
+              />
+            </Form.Field>
+            {showValidations && address === "" && (
+              <p style={{ color: "red" }}>Address is required</p>
+            )}
+            <Form.Field>
+              <Form.Input
+                fluid
+                placeholder="Education"
+                value={education}
+                onChange={(e) => setEducation(e.target.value)}
+                error={showValidations && education === ""}
+              />
+            </Form.Field>
+            {showValidations && education === "" && (
+              <p style={{ color: "red" }}>Education is required</p>
+            )}
+            <Form.Field>
+              <Form.Input
+                fluid
+                placeholder="Experience"
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
+                error={showValidations && experience === ""}
+              />
+            </Form.Field>
+            {showValidations && experience === "" && (
+              <p style={{ color: "red" }}>Experience is required</p>
+            )}
+
             <Button
               fluid
               type="submit"

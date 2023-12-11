@@ -4,13 +4,20 @@ import { Menu, Segment } from "semantic-ui-react";
 import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin, isStudent, isInstructor } = useAuth();
+  const homeUrl = isAdmin()
+    ? "/admin/dashboard"
+    : isStudent()
+    ? "/student/dashboard"
+    : isInstructor()
+    ? "/instructor/dashboard"
+    : "/student/login";
   return (
     <Segment inverted secondary>
       <Menu fixed="top" inverted>
         <Menu.Item
           as={Link}
-          to={isAuthenticated() ? "/boards" : "/student/login"}
+          to={homeUrl}
           header
           style={{
             border: "none",

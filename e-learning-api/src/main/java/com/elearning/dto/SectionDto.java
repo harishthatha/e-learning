@@ -24,6 +24,7 @@ public class SectionDto {
     private String day;
     private String startTime;
     private String endTime;
+    private String classroomNumber;
 
     private String crnNumber;
     private String timings;

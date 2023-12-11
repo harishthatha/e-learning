@@ -315,7 +315,7 @@ public class StudentServiceImpl implements StudentService {
     private String handleFileUpload(String studentId, AssignmentsEntity assignmentEntity, MultipartFile assignmentFile) {
         String uniqueFileName = "";
         try {
-            String uploadDir = "/Users/harishthatha/Documents/GitHub/e-learning/e-learning-ui/src/assignments-upload";
+            String uploadDir = "/Documents/GitHub/e-learning/e-learning-ui/src/assignments-upload";
             String originalFileName = assignmentFile.getOriginalFilename();
             assert originalFileName != null;
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
